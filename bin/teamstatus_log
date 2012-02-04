@@ -1,0 +1,36 @@
+#!/usr/bin/env node
+
+/**
+ * ircloggr - a nodejs implementation of irc logging visible via
+ *            a REST/JSON interface.
+ *
+ * See LICENSE file for licensing information.
+ */
+
+const
+path = require("path"),
+irc = require('../lib/irc.js'),
+config = require('../lib/config.js'),
+db = require('../lib/db.js'),
+winston = require('winston');
+
+// load up databases
+db.connect(function(err) {
+  if (err) {
+    winston.error("can't connect to database!");
+    process.nextTick(process.exit);
+  }
+  
+  irc.connectAllRooms(function(err) {
+    if (err) {
+      winston.error(err);
+      process.nextTick(function() { process.exit(1); });
+    }
+  });
+});
+
+process.on('SIGHUP', function() {
+  irc.connectAllRooms(function(err) {
+    if (err) winston.error(err);
+  });
+});

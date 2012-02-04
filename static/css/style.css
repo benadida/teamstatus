@@ -1,0 +1,237 @@
+body {
+    margin: 0;
+    padding: 0;
+    font: 13px/1.5 Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+}
+
+body > div {
+    width: 100%;
+    margin: 0;
+}
+
+#homescreen .header {
+    max-width: 700px;
+    margin: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+    height: 4em;
+}
+
+#homescreen .title {
+    font-family: arial, serif;
+    font-size: 2em;
+    font-weight: bold;
+    float: left;
+}
+
+#homescreen .subtitle {
+    font-style: italic;
+    margin-top: 1.6em;
+    margin-left: 2em;
+    font-size: .8em;
+    float: left;
+}
+
+#homescreen .summary {
+    float:right;
+    width: 600px;
+    margin: auto;
+    font-size: 1.2em;
+    margin-top: 1.6em;
+    text-align: center;
+}
+
+body > div {
+    display: none;
+}
+
+div.rooms {
+    width: 600px;
+    margin: auto;
+    margin-top: 2em;
+}
+
+#homescreen .roomlist {
+    background-color: #666;
+    border: 0;
+    cell-padding: .2em;
+    border-spacing: 0 0;
+    border: 10px solid #666;
+    padding: .4em;
+    margin: 0;
+    width: 600px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    color: #ccc;
+    padding: 6px;
+}
+
+#homescreen .roomlist td { 
+    padding: .2em .4em;
+}
+
+#homescreen .roomlist tr:nth-child(2n+1) {
+    background-color: #666;
+}
+
+#homescreen .roomlist tr:nth-child(2n) {
+    background-color: #333;
+}
+
+
+#homescreen .roomlist span.room {
+    cursor: pointer;
+    font-weight: bold;
+    font-color: #fff;
+}
+
+#homescreen .roomlist span.host {
+    font-size: .9em;
+    font-style: italic;
+}
+
+#logview .title {
+    color: #fff;
+}
+
+#logview .header  {
+    color: #fff;
+}
+
+
+#logview .home {
+    font-family: 'Permanent Marker', arial, serif;
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-left: 3em;
+}
+
+#logview .header > * {
+    float: left;
+}
+
+#logview .header {
+    height: 40px;
+    background-color: #000;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    opacity: .8;
+    z-index: 10;
+}
+
+#logview .header .currentHost, #logview .header .currentRoom {
+    padding: .2em;
+    padding-left: 1em;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+#logview .header .currentRoom {
+    color: #666;
+}
+
+#logview .header input.searchText {
+    border: 1px solid #ddd;
+    background-color: #333;
+    margin: 3px;
+    padding: 5px;
+    color: #ccc;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+
+}
+
+
+#logview table.logdisplay {
+    position: absolute;
+    top: 40px;
+    border: 1px solid #E3E6E9;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#logview .logdisplay .log {
+    padding: .1em;
+    height: 1.5em;
+    border: 0;
+    cursor: pointer;
+}
+
+#logview .logdisplay .log td {
+    padding: 3px;
+    border: 1px solid #E3E6E9;
+}
+
+#logview .logdisplay .log.odd {
+    background-color: #eee;
+}
+
+#logview .logdisplay .log.theOne {
+    background-color: rgb(255,255,204);
+}
+
+#logview .logdisplay .log > div {
+    float: left;
+}
+
+#logview .logdisplay .log .time {
+    min-width: 150px;
+    text-align: right;
+    margin-right: 1em;
+    color: #666;
+}
+
+#logview .logdisplay .log .what {
+    width: 100%;
+}
+
+.log .what .action {
+    width: 85%;
+    padding-left: 15%;
+}
+
+
+#logview .logdisplay .log .who {
+    font-weight: bold;
+    margin-right: .5em;
+}
+
+#logview .button td {
+    text-align: center;
+    color: #999;
+    background-color: #E6F0FF;
+    font-size: .85em;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+#logview .button td b {
+    color: #333;
+}
+
+a {
+    color: #039;
+}
+
+span.clr_0     { color: white; }
+span.clr_1     { color: black; }
+span.clr_2     { color: navy; }
+span.clr_3     { color: green; }
+span.clr_4     { color: red; }
+span.clr_5     { color: brown; }
+span.clr_6     { color: purple; }
+span.clr_7     { color: orange; }
+span.clr_8     { color: yellow; }
+span.clr_9     { color: lime; }
+span.clr_10    { color: teal; }
+span.clr_11    { color: cyan; }
+span.clr_12    { color: blue; }
+span.clr_13    { color: magenta; }
+span.clr_14    { color: grey; }
+span.clr_15    { color: silver; }
