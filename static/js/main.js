@@ -134,35 +134,23 @@ $(document).ready(function() {
     return colors[who];
   }
 
-  function renderLogs(data, chrono) {
+  function renderUsers(data) {
     function clickToContext() {
       var hashBits = location.hash.split("/");
       location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("mid");
     }
-    var lt = $("#templates .log");
-    $(".logdisplay").empty();
+    var lt = $("#templates .user");
+    $(".userdisplay").empty();
     for (var i = 0; i < data.length; i++) {
       var l = lt.clone();
       l.attr("mid", data[i].id);
-      l.find(".time").text($.timeago(new Date(1000 * data[i].ts)));
-      l.find(".what").html(formatMessage(data[i].who, data[i].msg));
-      l.find(".who").addClass(colorPerson(data[i].who));
+      l.find(".nick").text(data[i].nick);
+      l.find(".updated").text($.timeago(new Date(data[i].updated)));
+      l.find(".message").text(data[i].message || 'foobar');
       l.click(clickToContext);
       if (i % 2) l.addClass("odd");
-      if (chrono) l.prependTo($(".logdisplay"));
-      else l.appendTo($(".logdisplay"));
+      l.appendTo($(".userdisplay"));
     }
-    // now go through and colorize people in messages
-    $(".logdisplay td.what span.utt").each(function(e) {
-      var x = $(this).html();
-      for (var i in colors) {
-        if (!colors.hasOwnProperty(i)) continue;
-        var re = new RegExp("([ ]|^)" + i + "(?=[: ,\"]|$)");
-        var rep = '$1<span class="' + colorPerson(i) + '">' + i + "</span>";
-        x = x.replace(re, rep);
-      }
-      $(this).html(x);
-    });
   }
 
   function showError(str) {
@@ -178,7 +166,7 @@ $(document).ready(function() {
       location.hash = "";
       return;
     }
-    var path = "/api/utterances/" +
+    var path = "/api/users/" +
       encodeURIComponent(host) + "/" +
       encodeURIComponent(room) +
       (typeof before === 'string' ? ("?before=" +  encodeURIComponent(before)) : "");
@@ -188,7 +176,7 @@ $(document).ready(function() {
       url: path,
       dataType: "json",
       success: function(data) {
-        renderLogs(data, true);
+        renderUsers(data, true);
         showLogs();
 
         // now let's set up buttons
@@ -263,20 +251,20 @@ $(document).ready(function() {
     $("body > div").hide();
     $("#homescreen").fadeIn(500);
     $.ajax({
-      url: '/api/logs',
+      url: '/api/rooms',
       dataType: "json",
       success: function(data) {
         $(".roomlist").empty();
 
         // sort roomlist by latest comments
-        data = data.sort(function(a,b) { return b.latest - a.latest; });
+        data = data.sort(function(a,b) { return b.createdAt - a.createdAt; });
 
         for (var i = 0; i < data.length; i++) {
+          console.log(data[i]);
           var rn = $("#templates tr.room").clone();
-          rn.find(".updated").text($.timeago(new Date(1000 * data[i].latest)));
+          rn.find(".updated").text($.timeago(new Date(data[i].createdAt)));
           rn.find(".host").text(data[i].host);
           rn.find(".room").text("#" + data[i].room);
-          rn.find(".activity").text(data[i].thisMonth + " messages this month");
           rn.click(function() {
             location.hash = "#browse/"
               + ($(this).find(".host").text()) + "/"

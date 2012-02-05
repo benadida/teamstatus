@@ -67,7 +67,7 @@ div.rooms {
     padding: 6px;
 }
 
-#homescreen .roomlist td { 
+#homescreen .roomlist td {
     padding: .2em .4em;
 }
 
@@ -146,7 +146,7 @@ div.rooms {
 }
 
 
-#logview table.logdisplay {
+#logview table.userdisplay {
     position: absolute;
     top: 40px;
     border: 1px solid #E3E6E9;
@@ -155,48 +155,48 @@ div.rooms {
     width: 100%;
 }
 
-#logview .logdisplay .log {
+#logview .userdisplay .user {
     padding: .1em;
     height: 1.5em;
     border: 0;
     cursor: pointer;
 }
 
-#logview .logdisplay .log td {
+#logview .userdisplay .user td {
     padding: 3px;
     border: 1px solid #E3E6E9;
 }
 
-#logview .logdisplay .log.odd {
+#logview .userdisplay .user.odd {
     background-color: #eee;
 }
 
-#logview .logdisplay .log.theOne {
+#logview .userdisplay .user.theOne {
     background-color: rgb(255,255,204);
 }
 
-#logview .logdisplay .log > div {
+#logview .userdisplay .user > div {
     float: left;
 }
 
-#logview .logdisplay .log .time {
+#logview .userdisplay .user .time {
     min-width: 150px;
     text-align: right;
     margin-right: 1em;
     color: #666;
 }
 
-#logview .logdisplay .log .what {
+#logview .userdisplay .user .what {
     width: 100%;
 }
 
-.log .what .action {
+.user .what .action {
     width: 85%;
     padding-left: 15%;
 }
 
 
-#logview .logdisplay .log .who {
+#logview .userdisplay .user .who {
     font-weight: bold;
     margin-right: .5em;
 }

@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <title>ircloggr</title>
+  <title>teamstatus</title>
   <link href='css/style.css' type='text/css' rel='stylesheet'>
 </head>
 <body>
   <div id="homescreen">
     <div class="header">
-      <div class="title">irclog.gr</div>
-      <div class="subtitle">Online IRC logs for open source projects</div>
+      <div class="title">teamstat.us</div>
+      <div class="subtitle">status dashboard from IRC</div>
     </div>
     <div class="rooms">
       <table class="roomlist">
@@ -18,21 +18,22 @@
   </div>
   <div id="logview">
     <div class="header">
-      <div class="home">irclog.gr</div><div class="currentHost"></div><div class="currentRoom"></div><div class="search"><input class="searchText" type="text"></input><input class="doSearch" type="button" value="search"></input></div>
+      <div class="home">teamstat.us</div><div class="currentHost"></div><div class="currentRoom"></div>
     </div>
     <div class="waiting">
       talking to your friendly server...
     </div>
-    <table class="logdisplay">
+    <table class="userdisplay">
     </table>
   </div>
   <div id="templates">
+    <table><tr class="user"><td class="nick"></td><td class="updated"></td><td><span class="message"></span></td></tr></table>
     <table><tr class="room"><td class="updated"></td><td><span class="room"></span> (<span class="host"></span>)</td><td class="activity"></td></tr></table>
     <table><tr class="log"><td class="time"></td><td class="what"><span class="who"></span></td></tr></table>
     <table><tr class="button top"><td colspan="2">^^^ <b>older</b> ^^^</td></tr></table>
     <table><tr class="button bottom"><td colspan="2">vvv <b>older</b> vvv</td></tr></table>
   </div>
-<a href="https://github.com/lloyd/ircloggr"><img id="github_ribbon" style="position: fixed; top: 0; right: 0; border: 0; z-index: 20;" src="https://d3nwyuy0nl342s.cloudfront.net/img/4c7dc970b89fd04b81c8e221ba88ff99a06c6b61/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a>
+<a href="https://github.com/benadida/teamstatus"><img id="github_ribbon" style="position: fixed; top: 0; right: 0; border: 0; z-index: 20;" src="https://d3nwyuy0nl342s.cloudfront.net/img/4c7dc970b89fd04b81c8e221ba88ff99a06c6b61/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f77686974655f6666666666662e706e67" alt="Fork me on GitHub"></a>
 </body>
 <script src="js/jquery-1.6.min.js"></script>
 <script src="js/jquery.hashchange.min.js"></script>
