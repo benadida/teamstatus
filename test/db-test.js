@@ -9,9 +9,6 @@ config = require('../lib/config.js');
 var suite = vows.describe('db');
 suite.options.error = false;
 
-// manually override the database we'll connect to for testing purposes
-config.database = 'ircloggr_test';
-
 suite.addBatch({
   "connect to database": {
     topic: function() {
@@ -24,12 +21,32 @@ suite.addBatch({
 });
 
 suite.addBatch({
-  "clearing test tables": {
+  "drop schema": {
     topic: function() {
-      db.clearTestTables(this.callback);
+      db.dropSchema(this.callback);
     },
     "works": function(err) {
-      assert.isNull(err);
+      assert.isUndefined(err);
+    }
+  }
+});
+
+suite.addBatch({
+  "create schema": {
+    topic: function() {
+      db.createSchema(this.callback);
+    },
+    "works": function(err) {
+      assert.isUndefined(err);
+    },
+    "results in": {
+      topic: function() {
+        db.numTables(this.callback);
+      },
+      "more than 0 tables": function(err, num) {
+        assert.isNull(err);
+        assert.notEqual(num, 0);
+      }
     }
   }
 });
@@ -40,7 +57,6 @@ suite.addBatch({
       db.addRoom("irc.freenode.net", "yajl", this.callback);
     },
     "works": function(err) {
-      console.log
       assert.isNull(err);
     }
   },
@@ -69,84 +85,43 @@ suite.addBatch({
 });
 
 suite.addBatch({
-  "logging utterances": {
+  "log message": {
     topic: function() {
-      db.logMessage("irc.freenode.net", "#yajl", {
-        who: "lloyd",
-        utterance: "I love ircloggr"
-      }, this.callback);
+      db.logUpdate('irc.mozilla.org', 'identity', 'benadida', 'in meetings again', this.callback);
     },
-    "succeeds": function(err) { assert.isNull(err) },
-    "and more utterances": {
+    "works": function(err) {
+      assert.isUndefined(err);
+    },
+    "and when queried": {
       topic: function() {
-        db.logMessage("irc.freenode.net", "yajl", {
-          who: "lloyd",
-          utterance: "he is kind and gentle"
-        }, this.callback);
-      },      
-      "succeeds": function(err) { assert.isNull(err) },
-    }
-  }
-});
-
-suite.addBatch({
-  "searching utterances": {
-    topic: function() {
-      db.getUtterances(
-        { host: "irc.freenode.net", room: "yajl", phrase: "and gentle" },
-        this.callback);
-    },
-    works: function(err, r) {
-      assert.isNull(err);
-      assert.strictEqual(r.length, 1);
-    }
-  },
-  "searching for multiple matches": {
-    topic: function() {
-      db.getUtterances({host:"irc.freenode.net", room:"yajl", phrase:"i" }, this.callback);
-    },
-    works: function(err, r) {
-      assert.isNull(err);
-      assert.strictEqual(r.length, 2);
-    }
-  }
-});
-
-suite.addBatch({
-  "adding 200 utterances": {
-    topic: function() {
-      var cb = this.callback;
-      var completed = 0;
-      for (var i = 0; i < 200; i++) {
-        db.logMessage("irc.mozilla.org", "#identity",
-          who: "lloyd",
-          utterance: "This is utterance #" + i
-        }, function(err, r) {
-          if (completed < 0) return;
-          else if (err) {
-            completed = -1;
-            cb(err);
-          } else if (++completed === 200) {
-            cb(null);
-          }
-        });
+        db.getUpdates('irc.mozilla.org', 'identity', 'benadida', 3, this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);        
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        assert.isTrue(updates[0].content.indexOf("meetings") > -1);
       }
-    },
-    works: function(err, r) {
-      assert.isNull(err);
     }
   }
 });
 
 suite.addBatch({
-  "getting an utterance with context": {
+  "get users": {
     topic: function() {
-      db.utteranceWithContext('irc.mozilla.org', 'identity', 100, 10, this.callback);
+      db.getUsers('irc.mozilla.org', 'identity', this.callback);
     },
-    "yields expected results": function(err, r) {
+    "works": function(err) {
       assert.isNull(err);
-      assert.equal(r[0].id, 110);
-      assert.equal(r[20].id, 90);
+    },
+    "has more than one row": function(err, users) {
+      assert.notEqual(users.length, 0);
+    },
+    "contains the right thing": function(err, users) {
+      assert.equal(users[0].nick,'benadida');
     }
   }
 });

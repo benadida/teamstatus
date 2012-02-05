@@ -134,44 +134,49 @@ $(document).ready(function() {
     return colors[who];
   }
 
-  function renderUsers(data) {
+  function renderUsers(host, room, users) {
     function clickToContext() {
       var hashBits = location.hash.split("/");
       location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("mid");
     }
     var lt = $("#templates .user");
     $(".userdisplay").empty();
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < users.length; i++) {
+      var user = users[i];
       var l = lt.clone();
-      l.attr("mid", data[i].id);
-      l.find(".nick").text(data[i].nick);
-      l.find(".updated").text($.timeago(new Date(data[i].updated)));
-      l.find(".message").text(data[i].message || 'foobar');
+      l.attr("uid", user.id);
+      l.find(".nick").text(user.nick);
       l.click(clickToContext);
-      if (i % 2) l.addClass("odd");
       l.appendTo($(".userdisplay"));
+      getUserUpdates(host, room, users[i], function(updates) {
+        var recent_update = updates[0];
+        if (recent_update) {
+          l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
+          l.find(".latestMessage").text(recent_update.content || 'foobar');
+        } else {
+          l.find(".updatedAt").text('no recent update');
+        }
+      });
     }
   }
 
-  function renderUpdates(data) {
-    function clickToContext() {
-      var hashBits = location.hash.split("/");
-      location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("mid");
-    }
-    alert(JSON.stringify(data));
-    
-    var lt = $("#templates .user");
-    $(".userdisplay").empty();
-    for (var i = 0; i < data.length; i++) {
-      var l = lt.clone();
-      l.attr("mid", data[i].id);
-      l.find(".nick").text(data[i].nick);
-      l.find(".updated").text($.timeago(new Date(data[i].updated)));
-      l.find(".message").text(data[i].message || 'foobar');
-      l.click(clickToContext);
-      if (i % 2) l.addClass("odd");
-      l.appendTo($(".userdisplay"));
-    }
+  function getUserUpdates(host, room, user, cb) {
+    console.log("getting updates");
+    var path = "/api/updates/" +
+      encodeURIComponent(host) + "/" +
+      encodeURIComponent(room) + "/" +
+      encodeURIComponent(user.nick);
+
+    $.ajax({
+      url: path,
+      dataType: "json",
+      success: function(updates) {
+        cb(updates);
+      },
+      error: function(jqXHR, textStatus, err) {
+        showError("problem fetching logs for " + host + " #" + room + ": " + err);
+      }
+    });
   }
 
   function showError(str) {
@@ -187,7 +192,7 @@ $(document).ready(function() {
       location.hash = "";
       return;
     }
-    var path = "/api/updates/" +
+    var path = "/api/users/" +
       encodeURIComponent(host) + "/" +
       encodeURIComponent(room) +
       (typeof before === 'string' ? ("?before=" +  encodeURIComponent(before)) : "");
@@ -196,8 +201,8 @@ $(document).ready(function() {
     $.ajax({
       url: path,
       dataType: "json",
-      success: function(data) {
-        renderUpdates(data, true);
+      success: function(users) {
+        renderUsers(host, room, users, true);
       },
       error: function(jqXHR, textStatus, err) {
         showError("problem fetching logs for " + host + " #" + room + ": " + err);

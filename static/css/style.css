@@ -117,7 +117,6 @@ div.rooms {
     width: 100%;
     padding: 0;
     margin: 0;
-    position: fixed;
     opacity: .8;
     z-index: 10;
 }
@@ -142,63 +141,6 @@ div.rooms {
     border-radius: 6px;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
-
-}
-
-
-#logview table.userdisplay {
-    position: absolute;
-    top: 40px;
-    border: 1px solid #E3E6E9;
-    border-spacing: 0px;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-#logview .userdisplay .user {
-    padding: .1em;
-    height: 1.5em;
-    border: 0;
-    cursor: pointer;
-}
-
-#logview .userdisplay .user td {
-    padding: 3px;
-    border: 1px solid #E3E6E9;
-}
-
-#logview .userdisplay .user.odd {
-    background-color: #eee;
-}
-
-#logview .userdisplay .user.theOne {
-    background-color: rgb(255,255,204);
-}
-
-#logview .userdisplay .user > div {
-    float: left;
-}
-
-#logview .userdisplay .user .time {
-    min-width: 150px;
-    text-align: right;
-    margin-right: 1em;
-    color: #666;
-}
-
-#logview .userdisplay .user .what {
-    width: 100%;
-}
-
-.user .what .action {
-    width: 85%;
-    padding-left: 15%;
-}
-
-
-#logview .userdisplay .user .who {
-    font-weight: bold;
-    margin-right: .5em;
 }
 
 #logview .button td {
@@ -212,6 +154,36 @@ div.rooms {
 }
 
 #logview .button td b {
+    color: #333;
+}
+
+.userdisplay {
+    margin: auto;
+    padding: 20px;
+}
+
+.userdisplay .user {
+    padding-left: 10px;
+    border: 1px solid #ddd;
+    background-color: #bbb;
+    margin: 10px;
+    color: black;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+}
+
+.userdisplay .user .nick {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.userdisplay .user .latestMessage {
+    font-size: 1.1em;
+}
+
+.userdisplay .user .updatedAt {
+    font-size: 0.9em;
     color: #333;
 }
 
