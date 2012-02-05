@@ -154,7 +154,7 @@ $(document).ready(function() {
           for (var i = 1; i < updates.length; i++) {
             var o = ot.clone();
             o.find(".updatedAt").text($.timeago(new Date(updates[i].at)));
-            o.find(".content").text(updates[i].content);
+            o.find(".content").append(formatMessage(updates[i].content));
             o.appendTo(other_container);
           }
         } else {
