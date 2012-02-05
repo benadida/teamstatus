@@ -1,5 +1,7 @@
 
-statuslogr is a status dashboard builder based on irc. This code heavily borrows from ircloggr.
+teamstatus is a status dashboard builder based on irc.
+
+This code heavily borrows from Lloyd's ircloggr.
 
 ## Software Prerequisites
 
@@ -14,16 +16,16 @@ statuslogr is a status dashboard builder based on irc. This code heavily borrows
   1. Install node.js
   2. git clone this repository
   3. npm install
-  4. install mysql, create a `statuslogr` database, grant all privs to `statuslogr` user
+  4. install mysql, create a `teamstatus` database, grant all privs to `teamstatus` user
   5. PORT=8080 npm start
 
 Visit `http://127.0.0.1:8080/` in your browser
 
 ### The logger daemon
 
-  1. SERVERS=irc.freenode.net=statuslogr_test bin/statuslogr_log
+  1. SERVERS=irc.freenode.net=teamstatus_test bin/teamstatus_log
 
-Now log into `irc.freenode.net` #statuslogr_test and notice that your utterances are
+Now log into `irc.freenode.net` #teamstatus_test and notice that your utterances are
 visible through the web view.
 
 ## Deployment
@@ -34,10 +36,10 @@ straightforward.  Here are steps to get up and running on heroku:
   * heroku create --stack cedar --buildpack http://github.com/hakobera/heroku-buildpack-nodejs.git // create a new app on heroku using node 0.6+
   * heroku addons:add cleardb:ignite // add a mysql database
   * heroku config:add IP_ADDRESS=0.0.0.0
-  * heroku config:add BOT_NAME=my_statuslogr_bot
+  * heroku config:add BOT_NAME=my_teamstatus_bot
   * git push heroku master
 
 you should be running!  now let's configure a room and the daemon
 
-  * heroku config:add SERVERS=irc.freenode.net=statuslogr_testroom
+  * heroku config:add SERVERS=irc.freenode.net=teamstatus_testroom
   $ heroku scale web=1 worker=1
