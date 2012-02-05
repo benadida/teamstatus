@@ -126,6 +126,57 @@ suite.addBatch({
   }
 });
 
+
+suite.addBatch({
+  "log message with away nick": {
+    topic: function() {
+      db.logUpdate('irc.mozilla.org', 'identity', 'benshmadida|away', 'hacking on code', this.callback);
+    },
+    "works": function(err) {
+      assert.isUndefined(err);
+    },
+    "and when queried": {
+      topic: function() {
+        db.getUpdates('irc.mozilla.org', 'identity', 'benshmadida', 3, this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);        
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        assert.isTrue(updates[0].content.indexOf("hacking") > -1);
+      }
+    }
+  }
+});
+
+suite.addBatch({
+  "log message with double login": {
+    topic: function() {
+      db.logUpdate('irc.mozilla.org', 'identity', 'badida_', 'architecture thinking', this.callback);
+    },
+    "works": function(err) {
+      assert.isUndefined(err);
+    },
+    "and when queried": {
+      topic: function() {
+        db.getUpdates('irc.mozilla.org', 'identity', 'badida', 3, this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);        
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        assert.isTrue(updates[0].content.indexOf("architecture") > -1);
+      }
+    }
+  }
+});
+
 suite.addBatch({
   "closing the database": {
     topic: function() { db.close(this.callback); },
