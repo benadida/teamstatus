@@ -9,7 +9,7 @@ $(document).ready(function() {
 
   };
 
-  function formatMessage(who, msg) {
+  function formatMessage(msg) {
     // entity encode
     msg = $("<div/>").text(msg).html();
 
@@ -71,16 +71,7 @@ $(document).ready(function() {
     closeTags();
     msg = msgbuf;
 
-    // is this an action?
-    if (msg.length >= 10 && msg.charCodeAt(0) == 1 && msg.charCodeAt(msg.length - 1) == 1
-        & msg.substr(1,6) == "ACTION")
-    {
-      return "<div class=\"action\">*<span class=\"who\">" + who + "</span><span class=\"utt\">" + msg.substr(8, msg.length - 9) + "</span></div>";
-    }
-    else
-    {
-      return "<span class=\"who\">" + who + ":</span><span class=\"utt\">" + msg + "</span>";
-    }
+    return msg;
   }
 
   function setButtons(first_id, last_id, phrase) {
@@ -155,7 +146,7 @@ $(document).ready(function() {
         var recent_update = updates[0];
         if (recent_update) {
           l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
-          l.find(".latest").text(recent_update.content);
+          l.find(".latest").append(formatMessage(recent_update.content));
 
           // other updates
           var ot = $("#templates .oneStatus");
