@@ -153,6 +153,27 @@ $(document).ready(function() {
     }
   }
 
+  function renderUpdates(data) {
+    function clickToContext() {
+      var hashBits = location.hash.split("/");
+      location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("mid");
+    }
+    alert(JSON.stringify(data));
+    
+    var lt = $("#templates .user");
+    $(".userdisplay").empty();
+    for (var i = 0; i < data.length; i++) {
+      var l = lt.clone();
+      l.attr("mid", data[i].id);
+      l.find(".nick").text(data[i].nick);
+      l.find(".updated").text($.timeago(new Date(data[i].updated)));
+      l.find(".message").text(data[i].message || 'foobar');
+      l.click(clickToContext);
+      if (i % 2) l.addClass("odd");
+      l.appendTo($(".userdisplay"));
+    }
+  }
+
   function showError(str) {
     alert(str);
   }
@@ -166,7 +187,7 @@ $(document).ready(function() {
       location.hash = "";
       return;
     }
-    var path = "/api/users/" +
+    var path = "/api/updates/" +
       encodeURIComponent(host) + "/" +
       encodeURIComponent(room) +
       (typeof before === 'string' ? ("?before=" +  encodeURIComponent(before)) : "");
@@ -176,11 +197,7 @@ $(document).ready(function() {
       url: path,
       dataType: "json",
       success: function(data) {
-        renderUsers(data, true);
-        showLogs();
-
-        // now let's set up buttons
-        setButtons(data[0].id, data[data.length - 1].id, undefined);
+        renderUpdates(data, true);
       },
       error: function(jqXHR, textStatus, err) {
         showError("problem fetching logs for " + host + " #" + room + ": " + err);
