@@ -148,11 +148,22 @@ $(document).ready(function() {
       l.find(".nick").text(user.nick);
       l.click(clickToContext);
       l.appendTo($(".userdisplay"));
+
       getUserUpdates(host, room, users[i], function(updates) {
         var recent_update = updates[0];
         if (recent_update) {
           l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
-          l.find(".latestMessage").text(recent_update.content || 'foobar');
+          l.find(".latest").text(recent_update.content);
+
+          // other updates
+          var ot = $("#templates .oneStatus");
+          var other_container = l.find(".other");
+          for (var i = 1; i < updates.length; i++) {
+            var o = ot.clone();
+            o.find(".updatedAt").text($.timeago(new Date(updates[i].at)));
+            o.find(".content").text(updates[i].content);
+            o.appendTo(other_container);
+          }
         } else {
           l.find(".updatedAt").text('no recent update');
         }
