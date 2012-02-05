@@ -284,7 +284,17 @@ $(document).ready(function() {
         for (var i = 0; i < data.length; i++) {
           console.log(data[i]);
           var rn = $("#templates tr.room").clone();
-          rn.find(".updated").text($.timeago(new Date(data[i].createdAt)));
+          var user_text;
+          if (data[i].num_users == 0) {
+            user_text = "no users";
+          } else {
+            if (data[i].num_users == 1)
+              user_text = "1 user";
+            else
+              user_text = data[i].num_users + " users";
+          }
+          
+          rn.find(".numUsers").text(user_text);
           rn.find(".host").text(data[i].host);
           rn.find(".room").text("#" + data[i].room);
           rn.click(function() {
