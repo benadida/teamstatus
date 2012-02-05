@@ -141,15 +141,17 @@ $(document).ready(function() {
     }
     var lt = $("#templates .user");
     $(".userdisplay").empty();
-    for (var i = 0; i < users.length; i++) {
-      var user = users[i];
+
+    // switching to closure so cloned node doesn't get overwritten
+    // asynchronously
+    $(users).each(function(i, user) {
       var l = lt.clone();
       l.attr("uid", user.id);
       l.find(".nick").text(user.nick);
       l.click(clickToContext);
       l.appendTo($(".userdisplay"));
 
-      getUserUpdates(host, room, users[i], function(updates) {
+      getUserUpdates(host, room, user, function(updates) {
         var recent_update = updates[0];
         if (recent_update) {
           l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
@@ -168,7 +170,7 @@ $(document).ready(function() {
           l.find(".updatedAt").text('no recent update');
         }
       });
-    }
+    });
   }
 
   function getUserUpdates(host, room, user, cb) {
