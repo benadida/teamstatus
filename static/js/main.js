@@ -125,51 +125,58 @@ $(document).ready(function() {
     return colors[who];
   }
 
-  function renderUsers(host, room, users) {
-    function clickToContext() {
-      var hashBits = location.hash.split("/");
-      location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("mid");
-    }
+  function renderOneUser(host, room, nick, updates, clickToUser) {
     var lt = $("#templates .user");
+    var l = lt.clone();
+    l.attr("nick", nick);
+    l.find(".nick").text(nick);
+    l.click(clickToUser);
+    l.appendTo($(".userdisplay"));
+    
+    var recent_update = updates[0];
+    if (recent_update) {
+      l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
+      l.find(".latest").append(formatMessage(recent_update.content));
+      
+      // other updates
+      var ot = $("#templates .oneStatus");
+      var other_container = l.find(".other");
+      for (var i = 1; i < updates.length; i++) {
+        var o = ot.clone();
+        o.find(".updatedAt").text($.timeago(new Date(updates[i].at)));
+        o.find(".content").append(formatMessage(updates[i].content));
+        o.appendTo(other_container);
+      }
+    } else {
+      l.find(".updatedAt").text('no recent update');
+    }
+  }
+  
+  function renderUsers(host, room, users) {
+    function clickToUser() {
+      var hashBits = location.hash.split("/");
+      location.hash = "#show/" + hashBits[1] + "/" + hashBits[2] + "/" + $(this).attr("nick");
+    }
     $(".userdisplay").empty();
 
     // switching to closure so cloned node doesn't get overwritten
     // asynchronously
     $(users).each(function(i, user) {
-      var l = lt.clone();
-      l.attr("uid", user.id);
-      l.find(".nick").text(user.nick);
-      l.click(clickToContext);
-      l.appendTo($(".userdisplay"));
-
-      getUserUpdates(host, room, user, function(updates) {
-        var recent_update = updates[0];
-        if (recent_update) {
-          l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
-          l.find(".latest").append(formatMessage(recent_update.content));
-
-          // other updates
-          var ot = $("#templates .oneStatus");
-          var other_container = l.find(".other");
-          for (var i = 1; i < updates.length; i++) {
-            var o = ot.clone();
-            o.find(".updatedAt").text($.timeago(new Date(updates[i].at)));
-            o.find(".content").append(formatMessage(updates[i].content));
-            o.appendTo(other_container);
-          }
-        } else {
-          l.find(".updatedAt").text('no recent update');
-        }
+      getUserUpdates(host, room, user.nick, 4, function(updates) {
+        renderOneUser(host, room, user.nick, updates, clickToUser);
       });
     });
   }
 
-  function getUserUpdates(host, room, user, cb) {
+  function getUserUpdates(host, room, nick, last_n, cb) {
     console.log("getting updates");
     var path = "/api/updates/" +
       encodeURIComponent(host) + "/" +
       encodeURIComponent(room) + "/" +
-      encodeURIComponent(user.nick);
+      encodeURIComponent(nick);
+
+    if (last_n)
+      path+= "?last_n=" + last_n;
 
     $.ajax({
       url: path,
@@ -214,7 +221,7 @@ $(document).ready(function() {
     });
   }
 
-  function show(host, room, item) {
+  function show(host, room, nick) {
     $("body > div").hide();
     $("body > div#logview").show();
     $("#logview .header .currentHost").text(host);
@@ -223,24 +230,10 @@ $(document).ready(function() {
       location.hash = "";
       return;
     }
-    var path = "/api/context/" +
-      encodeURIComponent(host) + "/" +
-      encodeURIComponent(room) + "/" +
-      encodeURIComponent(item) + "?num=8";
 
-    showWaiting();
-    $.ajax({
-      url: path,
-      dataType: "json",
-      success: function(data) {
-        renderLogs(data, true);
-        $(".logdisplay .log[mid='"+item+"']").addClass("theOne");
-        showLogs();
-        setButtons(data[0].id, data[data.length - 1].id, undefined);
-      },
-      error: function(jqXHR, textStatus, err) {
-        showError("problem fetching logs for " + host + " #" + room + ": " + err);
-      }
+    $(".userdisplay").empty();
+    getUserUpdates(host, room, nick, 20, function(updates) {
+      renderOneUser(host, room, nick, updates, null);
     });
   }
 
