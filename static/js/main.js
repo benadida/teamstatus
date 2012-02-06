@@ -125,13 +125,11 @@ $(document).ready(function() {
     return colors[who];
   }
 
-  function renderOneUser(host, room, nick, updates, clickToUser) {
-    var lt = $("#templates .user");
-    var l = lt.clone();
+  function renderOneUser(host, room, nick, updates, domNode, clickToUser) {
+    var l = domNode;
     l.attr("nick", nick);
     l.find(".nick").text(nick);
     l.click(clickToUser);
-    l.appendTo($(".userdisplay"));
     
     var recent_update = updates[0];
     if (recent_update) {
@@ -159,11 +157,18 @@ $(document).ready(function() {
     }
     $(".userdisplay").empty();
 
+    var lt = $("#templates .user");
+    
     // switching to closure so cloned node doesn't get overwritten
     // asynchronously
     $(users).each(function(i, user) {
+      // we clone and append the node here for predictable ordering
+      var l = lt.clone();
+      l.appendTo($(".userdisplay"));
+      
       getUserUpdates(host, room, user.nick, 4, function(updates) {
-        renderOneUser(host, room, user.nick, updates, clickToUser);
+        // render into the predefined DOM node
+        renderOneUser(host, room, user.nick, updates, l, clickToUser);
       });
     });
   }
@@ -233,7 +238,11 @@ $(document).ready(function() {
 
     $(".userdisplay").empty();
     getUserUpdates(host, room, nick, 20, function(updates) {
-      renderOneUser(host, room, nick, updates, null);
+      var lt = $("#templates .user");
+      var l = lt.clone();
+      l.appendTo($(".userdisplay"));
+      
+      renderOneUser(host, room, nick, updates, l, null);
     });
   }
 
