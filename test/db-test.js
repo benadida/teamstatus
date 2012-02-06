@@ -90,7 +90,7 @@ suite.addBatch({
       db.logUpdate('irc.mozilla.org', 'identity', 'benadida', 'in meetings again', this.callback);
     },
     "works": function(err) {
-      assert.isUndefined(err);
+      assert.isNull(err);
     },
     "and when queried": {
       topic: function() {
@@ -133,7 +133,7 @@ suite.addBatch({
       db.logUpdate('irc.mozilla.org', 'identity', 'benshmadida|away', 'hacking on code', this.callback);
     },
     "works": function(err) {
-      assert.isUndefined(err);
+      assert.isNull(err);
     },
     "and when queried": {
       topic: function() {
@@ -158,7 +158,7 @@ suite.addBatch({
       db.logUpdate('irc.mozilla.org', 'identity', 'badida_', 'architecture thinking', this.callback);
     },
     "works": function(err) {
-      assert.isUndefined(err);
+      assert.isNull(err);
     },
     "and when queried": {
       topic: function() {
