@@ -1,2 +1,2 @@
-web: node bin/statuslogr_web
-worker: node bin/statuslogr_log
+web: node bin/teamstatus_web
+worker: node bin/teamstatus_log
