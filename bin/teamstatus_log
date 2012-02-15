@@ -17,15 +17,22 @@ winston = require('winston');
 // load up databases
 db.connect(function(err) {
   if (err) {
-    winston.error("can't connect to database!");
+    winston.error("can't connect to database: " + err);
     process.nextTick(process.exit);
   }
-  
-  irc.connectAllRooms(function(err) {
+
+  db.createSchema(function(err) {
     if (err) {
-      winston.error(err);
-      process.nextTick(function() { process.exit(1); });
+      winston.error("can't create schema: " + err);
+      process.nextTick(process.exit);
     }
+    
+    irc.connectAllRooms(function(err) {
+      if (err) {
+        winston.error(err);
+        process.nextTick(function() { process.exit(1); });
+      }
+    });
   });
 });
 
