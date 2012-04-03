@@ -1,5 +1,7 @@
 $(document).ready(function() {
-  var linkRegex = /(?:https?:\/\/)(?:[\da-z\.-]+)\.(?:[a-z\.]{2,6})(?:[\/\w\.-]*)*\/?(?:#[\w\d=\/\.-]+)?(?:\?[_\-\.=&%\w\d=;]+)?/g;
+  // var linkRegex = /(?:https?:\/\/)(?:[\da-z\.-]+)\.(?:[a-z\.]{2,6})(?:[\/\w\.-]*)*\/?(?:#[\w\d=\/\.-]+)?(?:\?[_\-\.=&%\w\d=;]+)?/g;
+  // trying a simpler regexp
+  var linkRegex = /(https?:\/\/[^ ]+)/g;
 
   var markupTable = {
     0x02: "b",
