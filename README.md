@@ -28,6 +28,12 @@ Visit `http://127.0.0.1:8080/` in your browser
 Now log into `irc.freenode.net` #teamstatus_test and notice that your utterances are
 visible through the web view.
 
+### Ignore certain users
+
+Bots get into fights. It's not pretty. Best to have them not fight one another by listing other bots so status knows about them.
+
+  1. OTHER_BOTS=jenkins,qatestbot
+
 ## Deployment
 
 Now that you've got it running, deployment on any provider should be pretty
