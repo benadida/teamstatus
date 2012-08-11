@@ -66,7 +66,32 @@ suite.addBatch({
     },
     "works": function(err) {
       assert.isNull(err);
+    },
+    "has a null attribute": {
+      topic: function() {
+        db.getRoomAttribute("irc.mozilla.org", "identity", "asana-key", this.callback);
+      },
+      "has same value": function(err, value) {
+        assert.isNull(value);
+      }
+    },
+    "adding an attribute" : {
+      topic: function() {
+        db.setRoomAttribute("irc.mozilla.org", "identity", "asana-key", "foobar", this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);
+      },
+      "and when retrieved" : {
+        topic: function() {
+          db.getRoomAttribute("irc.mozilla.org", "identity", "asana-key", this.callback);
+        },
+        "has same value": function(err, value) {
+          assert.equal(value, "foobar");
+        }
+      }
     }
+
   }
 });
 
@@ -97,7 +122,7 @@ suite.addBatch({
         db.getUpdates('irc.mozilla.org', 'identity', 'benadida', 3, this.callback);
       },
       "works": function(err) {
-        assert.isNull(err);        
+        assert.isNull(err);
       },
       "returns at least one row": function(err, updates) {
         assert.notEqual(updates.length, 0);
@@ -122,6 +147,32 @@ suite.addBatch({
     },
     "contains the right thing": function(err, users) {
       assert.equal(users[0].nick,'benadida');
+    },
+    "get an attribute before it's set" : {
+      topic: function() {
+        db.getUserAttribute('irc.mozilla.org', 'benadida', 'asana-key', this.callback);
+      },
+      "works": function(err, value) {
+        assert.isNull(err);
+        assert.isNull(value);
+      }
+    },
+    "set an attribute" : {
+      topic: function() {
+        db.setUserAttribute('irc.mozilla.org', 'benadida', 'asana-key', 'foobar#key', this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);
+      }
+    },
+    "get the attribute back" : {
+      topic: function() {
+        db.getUserAttribute('irc.mozilla.org', 'benadida', 'asana-key', this.callback);
+      },
+      "works": function(err, value) {
+        assert.isNull(err);
+        assert.equal(value, 'foobar#key');
+      }
     }
   }
 });
@@ -140,7 +191,7 @@ suite.addBatch({
         db.getUpdates('irc.mozilla.org', 'identity', 'benshmadida', 3, this.callback);
       },
       "works": function(err) {
-        assert.isNull(err);        
+        assert.isNull(err);
       },
       "returns at least one row": function(err, updates) {
         assert.notEqual(updates.length, 0);
@@ -165,7 +216,7 @@ suite.addBatch({
         db.getUpdates('irc.mozilla.org', 'identity', 'badida', 3, this.callback);
       },
       "works": function(err) {
-        assert.isNull(err);        
+        assert.isNull(err);
       },
       "returns at least one row": function(err, updates) {
         assert.notEqual(updates.length, 0);
