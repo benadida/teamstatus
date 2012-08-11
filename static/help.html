@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>teamstatus help</title>
+  <link href='css/style.css' type='text/css' rel='stylesheet'>
+</head>
+<body>
+  <div id="homescreen">
+    <div class="header">
+      <div class="title">teamstat.us</div>
+      <div class="subtitle">status dashboard from IRC</div>
+    </div>
+
+    <div class="rooms">
+      <h2>Help</h2>
+      <p>
+        In a room where <tt>status</tt> is listening:
+      </p>
+
+      <ul>
+        <li> <tt>status: help</tt><br />
+          will bring up this screen</li>
+        <br />
+        <li> <tt>status: ... anything else ...</tt><br />
+          will record the status and give you a URL for your status update.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+<script src="js/jquery-1.6.min.js"></script>
+<script src="js/jquery.hashchange.min.js"></script>
+<script src="js/jquery.timeago.min.js"></script>
+<script>
+  $('#homescreen').show();
+</script>
+</html>
