@@ -17,6 +17,6 @@
     "test": "node_modules/.bin/vows"
   },
   "engines": {
-    "node": ">= 0.6.7"
+    "node": "== 0.6.12"
   }
 }
