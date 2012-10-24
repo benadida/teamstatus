@@ -132,12 +132,12 @@ $(document).ready(function() {
     l.attr("nick", nick);
     l.find(".nick").text(nick);
     l.click(clickToUser);
-    
+
     var recent_update = updates[0];
     if (recent_update) {
       l.find(".updatedAt").text($.timeago(new Date(recent_update.at)));
       l.find(".latest").append(formatMessage(recent_update.content));
-      
+
       // other updates
       var ot = $("#templates .oneStatus");
       var other_container = l.find(".other");
@@ -151,7 +151,7 @@ $(document).ready(function() {
       l.find(".updatedAt").text('no recent update');
     }
   }
-  
+
   function renderUsers(host, room, users) {
     function clickToUser() {
       var hashBits = location.hash.split("/");
@@ -160,14 +160,14 @@ $(document).ready(function() {
     $(".userdisplay").empty();
 
     var lt = $("#templates .user");
-    
+
     // switching to closure so cloned node doesn't get overwritten
     // asynchronously
     $(users).each(function(i, user) {
       // we clone and append the node here for predictable ordering
       var l = lt.clone();
       l.appendTo($(".userdisplay"));
-      
+
       getUserUpdates(host, room, user.nick, 4, function(updates) {
         // render into the predefined DOM node
         renderOneUser(host, room, user.nick, updates, l, clickToUser);
@@ -188,8 +188,8 @@ $(document).ready(function() {
     $.ajax({
       url: path,
       dataType: "json",
-      success: function(updates) {
-        cb(updates);
+      success: function(result) {
+        cb(result.items);
       },
       error: function(jqXHR, textStatus, err) {
         showError("problem fetching logs for " + host + " #" + room + ": " + err);
@@ -243,7 +243,7 @@ $(document).ready(function() {
       var lt = $("#templates .user");
       var l = lt.clone();
       l.appendTo($(".userdisplay"));
-      
+
       renderOneUser(host, room, nick, updates, l, null);
     });
   }
@@ -301,7 +301,7 @@ $(document).ready(function() {
             else
               user_text = data[i].num_users + " users";
           }
-          
+
           rn.find(".numUsers").text(user_text);
           rn.find(".host").text(data[i].host);
           rn.find(".room").text("#" + data[i].room);
@@ -333,7 +333,7 @@ $(document).ready(function() {
       } else if (elems[0] === "#search") {
         search.apply(undefined, elems.slice(1));
       }
-    }    
+    }
   }
   $(window).hashchange(load);
   load();
