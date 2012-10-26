@@ -41,10 +41,6 @@ body > div {
     text-align: center;
 }
 
-body > div {
-    display: none;
-}
-
 div.rooms {
     width: 600px;
     margin: auto;
