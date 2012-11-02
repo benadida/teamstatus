@@ -14,12 +14,6 @@
       <div class="subtitle">status dashboard from IRC</div>
     </div>
     <div id="main-content">
-      <div style="float:right; width: 25%" ex:role="facet"
-           ex:facetClass="Cloud"
-           ex:expression=".tag">
-           </div>
-
-
         <div ex:role="viewPanel" style="padding: 1em 0.5in;">
 
             <div ex:role="view"
@@ -27,6 +21,7 @@
                 ex:viewClass="Tile"
                 ex:orders=".nick"
                 ex:showToolbox="false"
+                ex:showHeader="false"
                 ex:grouped="true"
                 >
               <div ex:role="lens" class="update" style="display:none;">
@@ -41,6 +36,7 @@
                 ex:viewClass="Tile"
                 ex:orders=".tag"
                 ex:showToolbox="false"
+                ex:showHeader="false"
                 ex:grouped="true"
                 >
               <div ex:role="lens" class="user" style="display:none;">
