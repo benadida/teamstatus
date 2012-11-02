@@ -25,30 +25,26 @@
             <div ex:role="view"
                 ex:label="by person"
                 ex:viewClass="Tile"
-                ex:showSummary="true"
                 ex:orders=".category"
                 ex:showToolbox="false"
-                ex:showControls="false"
                 ex:grouped="true"
                 >
+              <div ex:role="lens" class="user" style="display:none;">
+                <span class="latest" ex:content=".content"></span>&nbsp;&nbsp;<span class="updatedAt" ex:content=".at"></span>
+                <div class="other">
+                </div>
+              </div>
             </div>
 
             <div ex:role="view"
                 ex:label="by tag"
                 ex:viewClass="Tile"
-                ex:showSummary="true"
                 ex:orders=".nick"
                 ex:showToolbox="false"
-                ex:showControls="false"
                 ex:grouped="true"
                 >
             </div>
 
-            <div ex:role="lens" class="user" style="display:none;">
-              <span class="latest" ex:content=".content"></span>&nbsp;&nbsp;<span class="updatedAt" ex:content=".at"></span>
-              <div class="other">
-              </div>
-            </div>
             </div>
 
 
