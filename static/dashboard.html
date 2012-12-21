@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>Mozilla Identity Dashboard</title>
+
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="/foundation/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="/foundation/stylesheets/app.css">
+
+  <link rel="stylesheet" href="/foundicons/stylesheets/general_foundicons.css">
+
+  <style>
+@font-face {
+  font-family: 'generalFoundicons';
+  src: url('/foundicons/fonts/general_foundicons.eot');
+  src: url('/foundicons/fonts/general_foundicons.eot?#iefix') format('embedded-opentype'),
+  url('/foundicons/fonts/general_foundicons.woff') format('woff'),
+  url('/foundicons/fonts/general_foundicons.ttf') format('truetype'),
+  url('/foundicons/fonts/general_foundicons.svg#generalFoundicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class*="foundicon-"] {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: inherit;
+  vertical-align: baseline;
+  background-image: none;
+  background-position: 0 0;
+  background-repeat: repeat;
+}
+
+[class*="foundicon-"]:before {
+  font-family: "generalFoundicons";
+  font-weight: normal;
+  font-style: normal;
+  text-decoration: inherit;
+}
+</style>
+
+  <!-- Included JS Files (Compressed) -->
+  <script src="/foundation/javascripts/jquery.js"></script>
+  <script src="/foundation/javascripts/foundation.min.js"></script>
+
+  <!-- Initialize JS Plugins -->
+  <script src="/foundation/javascripts/app.js"></script>
+<!--  <script src="/foundation/javascripts/modernizr.foundation.js"></script>-->
+
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+</head>
+<body>
+
+
+
+  <div class="row">
+    <div class="twelve columns">
+      <h4 class="panel">Mozilla Identity Dashboard</h4>
+
+      <!-- Main Banner Image - place in a paragraph to enforce the modular scale spacing -->
+      <div class="alert-box alert radius center">
+        <i class="foundicon-flag"></i>&nbsp;&nbsp;
+        <a href="#" data-reveal-id="fiveStarModal">3 five-<i class="foundicon-star"></i> bugs</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" data-reveal-id="blockersModal">2 people blocked</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- End Nav and Banner -->
+
+
+  <!-- Main Content Section -->
+
+  <div class="row">
+
+    <div class="two columns">
+      <div class="panel">
+        <h6>27 <i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
+        <h6>84 <i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
+        <h6>123 <i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
+        <h6>172 <i class="foundicon-star"></i></h6>
+      </div>
+    </div>
+    <div class="eight columns">
+      <div class="panel">
+        <p>
+          <tt class="label">lloyd</tt>: working on fixing stuff in #gombot server
+        </p>
+        <p>
+          <tt class="label">automin</tt>: #gombot chrome add-on doing well
+        </p>
+        <p>
+          <tt class="label">ozten</tt>: #bigtent ready for production release
+        </p>
+      </div>
+    </div>
+
+    <div class="two columns">
+      <dl class="vertical tabs">
+        <dd class="active"><a href="#vertical1">all</a></dd>
+        <dd><a href="#vertical2">#core</a></dd>
+        <dd><a href="#vertical3">#gombot</a></dd>
+      </dl>
+    </div>
+
+
+  </div>
+
+
+
+
+  <!-- Footer -->
+
+
+  <!-- modals -->
+  <div id="fiveStarModal" class="reveal-modal xlarge">
+    <h5>5<i class="foundicon-star"></i> Bugs</h5>
+    <p>[<a href="#">12345</a>] can't log in when there's a full moon</p>
+    <p>[<a href="#">54321</a>] can't log in on 1/1/2013</p>
+    <p>[<a href="#">11111</a>] can't log out</p>
+  </div>
+
+  <div id="blockersModal" class="reveal-modal xlarge">
+    <h5>Blockers</h5>
+    <p><b>benadida</b>: <tt>can't seem to get foobar working</tt></p>
+    <p><b>lloyd</b>: <tt>sick of benadida's constant ranting</tt></p>
+    <a class="close-reveal-modal">&#215;</a>
+  </div>
+</body>
+</html>
