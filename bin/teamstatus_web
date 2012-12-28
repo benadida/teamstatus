@@ -15,7 +15,8 @@ const sys = require("sys"),
 httputils = require('../lib/httputils.js'),
    config = require('../lib/config.js'),
        db = require('../lib/db.js'),
-  winston = require('winston');
+  winston = require('winston'),
+    repos = require('../lib/repos.js');
 
 db.connect(function(err) {
   if (err) throw err;
@@ -25,8 +26,8 @@ db.connect(function(err) {
     .use(express.logger())
     .use(function(req, res, next) {
       var urlpath = url.parse(req.url).pathname;
-      if (urlpath.indexOf('/api/') !== 0) return next(); 
-      urlpath = urlpath.substr(4); 
+      if (urlpath.indexOf('/api/') !== 0) return next();
+      urlpath = urlpath.substr(4);
       // break pathname up by '/'
       var args = urlpath.substr(1).split('/');
       if (wsapi[args[0]]) {

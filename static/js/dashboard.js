@@ -7,7 +7,7 @@ var updateTemplateNext = '{{#items}}<div class="row"><div class="ten columns off
 
 var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}">{{number}}</a>] {{title}}</p>{{/issues}}'
 
-var issueCountTemplate = '{{#issueCounts}}<h6><a target="_new" href="{{url}}">{{count}}</a> {{#numStars}}<i class="foundicon-star"></i>{{/numStars}}</h6>{{/issueCounts}}';
+var issueCountTemplate = '{{#issueCounts}}<h6><a target="_new" href="{{html_url}}">{{count}}</a> {{#numStars}}<i class="foundicon-star"></i>{{/numStars}}</h6>{{/issueCounts}}';
 
 // STARS
 function repeatString(str, num) {
