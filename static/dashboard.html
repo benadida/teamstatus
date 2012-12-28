@@ -73,10 +73,10 @@
       <h4 class="panel">Mozilla Identity Dashboard</h4>
 
       <!-- Main Banner Image - place in a paragraph to enforce the modular scale spacing -->
-      <div class="panel callout radius center">
+      <div class="panel callout radius center" style="display:none;" id="blockers">
         Oh oh:
-        <a href="#" data-reveal-id="fiveStarModal" data-animation="none" class="button">3 five-<i class="foundicon-star"></i> bugs</a> &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="#" data-reveal-id="blockersModal" data-animation="none" class="button">2 people blocked</a>
+        <a href="#" data-reveal-id="fiveStarModal" data-animation="none" class="button"><span id="fiveStarCount"></span> five-<i class="foundicon-star"></i> bugs</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<!--        <a href="#" data-reveal-id="blockersModal" data-animation="none" class="button">2 people blocked</a>-->
       </div>
 
     </div>
@@ -90,11 +90,7 @@
   <div class="row">
 
     <div class="two columns">
-      <div class="panel">
-        <h6>27 <i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
-        <h6>84 <i class="foundicon-star"></i><i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
-        <h6>123 <i class="foundicon-star"></i><i class="foundicon-star"></i></h6>
-        <h6>172 <i class="foundicon-star"></i></h6>
+      <div class="panel" id="issueCounts">
       </div>
     </div>
     <div class="eight columns">
@@ -123,9 +119,8 @@
   <!-- modals -->
   <div id="fiveStarModal" class="reveal-modal xlarge">
     <h5>5<i class="foundicon-star"></i> Bugs</h5>
-    <p>[<a href="#">12345</a>] can't log in when there's a full moon</p>
-    <p>[<a href="#">54321</a>] can't log in on 1/1/2013</p>
-    <p>[<a href="#">11111</a>] can't log out</p>
+    <div id="fiveStarModalContent">
+    </div>
   </div>
 
   <div id="blockersModal" class="reveal-modal xlarge">
