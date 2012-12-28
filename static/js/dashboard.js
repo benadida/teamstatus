@@ -48,7 +48,7 @@ function addBlockers(issues) {
 }
 
 function addIssueCounts(issues) {
-  if (!issues.FOUR_STAR) {
+  if (!issues[FOUR_STAR]) {
     processedIssues = [];
   } else {
     var processedIssues = [
