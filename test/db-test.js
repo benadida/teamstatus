@@ -163,6 +163,61 @@ suite.addBatch({
 });
 
 suite.addBatch({
+  "log message with tag": {
+    topic: function() {
+      db.logUpdate('irc.mozilla.org', 'identity', 'benadida', 'in meetings again #meeting', this.callback);
+    },
+    "works": function(err) {
+      assert.isNull(err);
+    },
+    "and when queried with tag": {
+      topic: function() {
+        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, null, '#meeting', this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        assert.isTrue(updates[0].content.indexOf("meetings") > -1);
+      }
+    },
+    "and when queried with since and tag": {
+      topic: function() {
+        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, 1, '#meeting', this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        assert.isTrue(updates[0].content.indexOf("meetings") > -1);
+      }
+    },
+    "and when queried with all": {
+      topic: function() {
+        db.getAllUpdates('irc.mozilla.org', 'identity', 3, this.callback);
+      },
+      "works": function(err) {
+        assert.isNull(err);
+      },
+      "returns at least one row": function(err, updates) {
+        assert.notEqual(updates.length, 0);
+      },
+      "contains the right thing": function(err, updates) {
+        // updates[1] cause other test adds something else here
+        // FIXME: this is flimsy
+        assert.isTrue(updates[1].content.indexOf("#meeting") > -1);
+      }
+    }
+  }
+});
+
+suite.addBatch({
   "get users": {
     topic: function() {
       db.getUsers('irc.mozilla.org', 'identity', this.callback);
@@ -239,9 +294,9 @@ suite.addBatch({
         assert.notEqual(updates.length, 0);
       },
       "contains the right thing": function(err, updates) {
-        // updates[1] cause other test adds something else here
+        // updates[2] cause other test adds something else here
         // FIXME: this is flimsy
-        assert.isTrue(updates[1].content.indexOf("hacking") > -1);
+        assert.isTrue(updates[2].content.indexOf("hacking") > -1);
       }
     }
   }
