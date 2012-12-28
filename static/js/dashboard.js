@@ -1,9 +1,9 @@
 
 // TEMPLATES
 
-var updateTemplateFirst = '<div class="row"><div class="two columns"><tt class="label right">{{nick}}:</tt></div><div class="ten columns">{{content}}</div></div>';
+var updateTemplateFirst = '<div class="row"><div class="two columns"><span class="label right">{{nick}}:</span></div><div class="ten columns">{{content}} <span style="font-size:0.7em;">[{{nice_at}}]</span></div></div>';
 
-var updateTemplateNext = '{{#items}}<div class="row"><div class="ten columns offset-by-two">{{content}}</div></div>{{/items}}<div class="row">&nbsp;</div>';
+var updateTemplateNext = '{{#items}}<div class="row"><div class="ten columns offset-by-two">{{content}} <span style="font-size:0.7em;">[{{nice_at}}]</span></div></div>{{/items}}<div class="row">&nbsp;</div>';
 
 var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}">{{number}}</a>] {{title}}</p>{{/issues}}'
 
@@ -22,6 +22,11 @@ var FIVE_STAR = repeatString(ONE_STAR, 5);
 
 
 function addUpdatesFromUser(nick, updates) {
+  // make dates nice
+  updates.forEach(function(update) {
+    update.nice_at = moment(update.at).fromNow();
+  });
+
   var renderedFirst = Mustache.render(updateTemplateFirst, updates[0]);
   var renderedNext = Mustache.render(updateTemplateNext, {items: updates.slice(1)});
   $(renderedFirst).appendTo('#updates');
@@ -43,12 +48,16 @@ function addBlockers(issues) {
 }
 
 function addIssueCounts(issues) {
-  var processedIssues = [
-    {numStars: new Array(4), count: issues[FOUR_STAR].count, html_url: issues[FOUR_STAR].html_url},
-    {numStars: new Array(3), count: issues[THREE_STAR].count, html_url: issues[THREE_STAR].html_url},
-    {numStars: new Array(2), count: issues[TWO_STAR].count, html_url: issues[TWO_STAR].html_url},
-    {numStars: new Array(1), count: issues[ONE_STAR].count, html_url: issues[ONE_STAR].html_url}
-  ];
+  if (!issues.FOUR_STAR) {
+    processedIssues = [];
+  } else {
+    var processedIssues = [
+      {numStars: new Array(4), count: issues[FOUR_STAR].count, html_url: issues[FOUR_STAR].html_url},
+      {numStars: new Array(3), count: issues[THREE_STAR].count, html_url: issues[THREE_STAR].html_url},
+      {numStars: new Array(2), count: issues[TWO_STAR].count, html_url: issues[TWO_STAR].html_url},
+      {numStars: new Array(1), count: issues[ONE_STAR].count, html_url: issues[ONE_STAR].html_url}
+    ];
+  }
 
   var rendered = Mustache.render(issueCountTemplate, {issueCounts: processedIssues});
   $(rendered).appendTo('#issueCounts');
