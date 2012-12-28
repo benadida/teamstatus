@@ -23,7 +23,7 @@ var FIVE_STAR = repeatString(ONE_STAR, 5);
 
 function addUpdatesFromUser(nick, updates) {
   var renderedFirst = Mustache.render(updateTemplateFirst, updates[0]);
-  var renderedNext = Mustache.render(updateTemplateNext, updates.slice(1));
+  var renderedNext = Mustache.render(updateTemplateNext, {items: updates.slice(1)});
   $(renderedFirst).appendTo('#updates');
   $(renderedNext).appendTo('#updates');
 }
