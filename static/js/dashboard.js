@@ -90,7 +90,6 @@ function addTags(tags) {
     return;
   tagsAdded = true;
 
-  tags = ['foo', 'bar'];
   if (!tags || !tags.length)
     return;
 
