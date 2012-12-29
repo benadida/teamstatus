@@ -84,7 +84,6 @@ function addTags(tags) {
     return;
   tagsAdded = true;
 
-  tags=['foo','bar', 'meeting'];
   if (!tags || !tags.length)
     return;
 
