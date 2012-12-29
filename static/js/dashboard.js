@@ -5,11 +5,11 @@ var updateTemplateFirst = '<div class="row"><div class="two columns"><span class
 
 var updateTemplateNext = '{{#items}}<div class="row"><div class="ten columns offset-by-two">{{content}} <span style="font-size:0.7em;">[{{nice_at}}]</span></div></div>{{/items}}<div class="row">&nbsp;</div>';
 
-var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}">{{number}}</a>] {{title}}</p>{{/issues}}'
+var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}">{{number}}</a>] {{title}}</p>{{/issues}}';
 
 var issueCountTemplate = '{{#issueCounts}}<h6><a target="_new" href="{{html_url}}">{{count}}</a> {{#numStars}}<i class="foundicon-star"></i>{{/numStars}}</h6>{{/issueCounts}}';
 
-var tagsTemplate = '{{#tags}}<dd><a href="#{{tag}}">#{{tag}}</a></dd>{{/tags}}';
+var tagsTemplate = '<dd class="active"><a href="#" class="tag" id="tag_all">all</a></dd>{{#tags}}<dd><a href="#" class="tag" id="tag_{{tag}}">#{{tag}}</a></dd>{{/tags}}';
 
 // STARS
 function repeatString(str, num) {
@@ -35,7 +35,17 @@ function addUpdatesFromUser(nick, updates) {
   $(renderedNext).appendTo('#updates');
 }
 
+function addUpdatesFromAllUsers(updates) {
+  $('#updates').html('');
+  _.pairs(updates).forEach(function(userAndUpdates) {
+    addUpdatesFromUser(userAndUpdates[0], userAndUpdates[1]);
+  });
+}
+
 function addBlockers(issues) {
+  $('#fiveStarModalContent').html('');
+  $('#blockers').hide();
+
   if (issues && (issues.length > 0)) {
     // add the count
     $('#fiveStarCount').html(issues.length.toString());
@@ -50,6 +60,8 @@ function addBlockers(issues) {
 }
 
 function addIssueCounts(issues) {
+  $('#issueCounts').html('');
+
   if (!issues[FOUR_STAR]) {
     processedIssues = [];
   } else {
@@ -65,7 +77,14 @@ function addIssueCounts(issues) {
   $(rendered).appendTo('#issueCounts');
 }
 
+var tagsAdded=false;
 function addTags(tags) {
+  // let's do this one only if we haven't done it before
+  if (tagsAdded)
+    return;
+  tagsAdded = true;
+
+  tags=['foo','bar', 'meeting'];
   if (!tags || !tags.length)
     return;
 
@@ -73,8 +92,12 @@ function addTags(tags) {
   $(rendered).appendTo('#tags');
 }
 
-$(document).ready(function() {
-  $.get('/api/summary/' + HOST + '/' + ROOM, function(result) {
+function updateAll(host, room, tag, cb) {
+  var url = '/api/summary/' + host + '/' + room;
+  if (tag)
+    url += '?tag=' + encodeURIComponent(tag);
+
+  $.get(url, function(result) {
     // tags
     addTags(result.tags);
 
@@ -85,8 +108,24 @@ $(document).ready(function() {
     addIssueCounts(result.issues);
 
     // status updates
-    _.pairs(result.updates).forEach(function(userAndUpdates) {
-      addUpdatesFromUser(userAndUpdates[0], userAndUpdates[1]);
+    addUpdatesFromAllUsers(result.updates);
+
+    if (cb)
+      cb();
+  });
+}
+
+$(document).ready(function() {
+  updateAll(HOST, ROOM, null, function() {
+    $('.tag').click(function(evt) {
+      var tag = evt.target.id.match('tag_(.+)')[1];
+
+      if (tag == 'all')
+        updateAll(HOST, ROOM, null);
+      else
+        updateAll(HOST, ROOM, tag);
     });
   });
 });
+
+

@@ -172,7 +172,7 @@ suite.addBatch({
     },
     "and when queried with tag": {
       topic: function() {
-        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, null, '#meeting', this.callback);
+        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, null, 'meeting', this.callback);
       },
       "works": function(err) {
         assert.isNull(err);
@@ -186,7 +186,7 @@ suite.addBatch({
     },
     "and when queried with since and tag": {
       topic: function() {
-        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, 1, '#meeting', this.callback);
+        db.getUpdatesWithTag('irc.mozilla.org', 'identity', 'benadida', 3, 1, 'meeting', this.callback);
       },
       "works": function(err) {
         assert.isNull(err);
