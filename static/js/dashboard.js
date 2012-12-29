@@ -9,6 +9,8 @@ var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}
 
 var issueCountTemplate = '{{#issueCounts}}<h6><a target="_new" href="{{html_url}}">{{count}}</a> {{#numStars}}<i class="foundicon-star"></i>{{/numStars}}</h6>{{/issueCounts}}';
 
+var tagsTemplate = '{{#tags}}<dd><a href="#{{tag}}">#{{tag}}</a></dd>{{/tags}}';
+
 // STARS
 function repeatString(str, num) {
   return new Array(num + 1).join(str);
@@ -63,8 +65,19 @@ function addIssueCounts(issues) {
   $(rendered).appendTo('#issueCounts');
 }
 
+function addTags(tags) {
+  if (!tags || !tags.length)
+    return;
+
+  var rendered = Mustache.render(tagsTemplate, {tags: _.map(tags, function(t) {return {tag:t};})});
+  $(rendered).appendTo('#tags');
+}
+
 $(document).ready(function() {
   $.get('/api/summary/' + HOST + '/' + ROOM, function(result) {
+    // tags
+    addTags(result.tags);
+
     // blockers
     addBlockers(result.issues[FIVE_STAR]);
 
