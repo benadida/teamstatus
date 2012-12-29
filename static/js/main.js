@@ -17,7 +17,7 @@ $(document).ready(function() {
 
     // make links clickable
     msg = msg.replace(linkRegex, function (match) {
-      return '<a href="' + match + '">' + match + "</a>";
+      return '<a target="_new" href="' + match + '">' + match + "</a>";
     });
 
     // color highlight messages
