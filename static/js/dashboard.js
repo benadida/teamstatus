@@ -1,4 +1,10 @@
 
+// figure out the host and room
+var hash = document.location.hash;
+var m = hash.match(/^#([^/]+)\/(.+)/);
+var HOST = m[1];
+var ROOM = m[2];
+
 // TEMPLATES
 
 var updateTemplateFirst = '<div class="row"><div class="two columns"><span class="label right">{{nick}}:</span></div><div class="ten columns">{{content}} <span style="font-size:0.7em;">[{{nice_at}}]</span></div></div>';

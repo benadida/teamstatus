@@ -305,6 +305,7 @@ $(document).ready(function() {
           rn.find(".numUsers").text(user_text);
           rn.find(".host").text(data[i].host);
           rn.find(".room").text("#" + data[i].room);
+          // rn.find(".activity").html('<a href="/dashboard#' + data[i].host + '/' + data[i].room + '">dashboard</a>');
           rn.click(function() {
             location.hash = "#browse/"
               + ($(this).find(".host").text()) + "/"

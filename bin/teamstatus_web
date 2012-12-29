@@ -26,6 +26,12 @@ db.connect(function(err) {
     .use(express.logger())
     .use(function(req, res, next) {
       var urlpath = url.parse(req.url).pathname;
+
+      // special case the dashboard for now
+      console.log(urlpath);
+      if (urlpath == '/dashboard')
+        return res.sendfile('static/dashboard.html');
+
       if (urlpath.indexOf('/api/') !== 0) return next();
       urlpath = urlpath.substr(4);
       // break pathname up by '/'
