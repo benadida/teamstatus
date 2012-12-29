@@ -1,7 +1,7 @@
 
 // figure out the host and room
 var hash = document.location.hash;
-var m = hash.match(/^#([^/]+)\/(.+)/);
+var m = hash.match(/^#([^/]+)\/([^/]+)/);
 var HOST = m[1];
 var ROOM = m[2];
 
@@ -15,7 +15,7 @@ var fiveStarDetailTemplate = '{{#issues}}<p>[<a target="_new" href="{{html_url}}
 
 var issueCountTemplate = '{{#issueCounts}}<h6><a target="_new" href="{{html_url}}">{{count}}</a> {{#numStars}}<i class="foundicon-star"></i>{{/numStars}}</h6>{{/issueCounts}}';
 
-var tagsTemplate = '<dd class="active"><a href="#" class="tag" id="tag_all">all</a></dd>{{#tags}}<dd><a href="#" class="tag" id="tag_{{tag}}">#{{tag}}</a></dd>{{/tags}}';
+var tagsTemplate = '<dd class="active"><a class="tag" id="tag_all">all</a></dd>{{#tags}}<dd><a class="tag" id="tag_{{tag}}">#{{tag}}</a></dd>{{/tags}}';
 
 // STARS
 function repeatString(str, num) {
@@ -90,10 +90,18 @@ function addTags(tags) {
     return;
   tagsAdded = true;
 
+  tags = ['foo', 'bar'];
   if (!tags || !tags.length)
     return;
 
-  var rendered = Mustache.render(tagsTemplate, {tags: _.map(tags, function(t) {return {tag:t};})});
+  var rendered = Mustache.render(tagsTemplate, {
+    tags: _.map(tags, function(t) {
+      return {
+        tag:t,
+        host: HOST,
+        room: ROOM
+      };
+    })});
   $(rendered).appendTo('#tags');
 }
 
